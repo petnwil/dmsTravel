@@ -1,0 +1,54 @@
+#splash{
+  min-width: 100%;
+  min-height: 100%;
+  /*background-color: #CCFFFF; */
+  background-image: url("backgroundPicture.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  padding:0;
+  margin:0;
+  top:0;
+  left:0;
+  color: white;
+}
+
+
+.left{
+  float:left;
+  margin-top: 10%;
+  margin-left:10%;
+}
+
+.right{
+  float:right;
+  margin-top: 10%;
+  margin-right:10%;
+}
+
+
+#menu{
+  position: fixed;
+  font-size: 18px;
+  background-color: black;
+  color:white;
+  width: 100%;
+  min-height: 6%;
+  top:0;
+  left:0;
+  padding-top:4px;
+  padding-left: 3px;
+}
+
+
+.menuItem{
+  width: 110px;
+  height: 30px;
+  display: inline;
+}
+
+#logoutBtn{
+  position: relative;
+  float:right;
+  margin-right:15px;
+}
