@@ -32,12 +32,12 @@
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       //testAPI();
-      $('#splash').hide(0,getAlbumInfo());
-      $('#content').show(0,showDescription());
+      $('#splash').hide();
+      $('#content').show();
       accessToken = response.authResponse.accessToken;
 
-        //showDescription();
-        //getAlbumInfo();
+        showDescription();
+        getAlbumInfo();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.

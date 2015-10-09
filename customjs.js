@@ -26,6 +26,14 @@ var pageId = "815157038515764";
 var picArray =[];
 
 
+//get and shows description in div description
+function showDescription(){
+  FB.api(pageId,{fields:'description'},function(response){
+    $('#description').append(response.description);
+  });
+}
+
+
 
 function getAlbumInfo(){
   FB.api(pageId,'GET',{"fields":"albums{name,location,cover_photo,likes}"},
