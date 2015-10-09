@@ -84,6 +84,6 @@ console.log(response.albums.data);
 //Function to get URL to cover_photo
 function getCoverPhotoSource(id,obj){
   FB.api('/'+id,'GET',{"fields":"source"}, function(response){
-    return response.source;
+    obj.url = response.source;
   });
 }
