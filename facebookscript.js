@@ -1,7 +1,4 @@
-//DMS Travel id
-var pageId = "815157038515764";
 
-var picArray =[];
 
 //fFacebook SDK - include it on every page I want to use it
    window.fbAsyncInit = function() {
@@ -35,12 +32,12 @@ var picArray =[];
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       //testAPI();
-      $('#splash').hide();
-      $('#content').show();
+      $('#splash').hide(0,getAlbumInfo());
+      $('#content').show(0,showDescription());
       accessToken = response.authResponse.accessToken;
 
-        showDescription();
-        getAlbumInfo();
+        //showDescription();
+        //getAlbumInfo();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -107,66 +104,5 @@ function logOut(){
    FB.logout(function(response) {
   // user is now logged out
   console.log("User is now logged out");
-  });
-}
-
-
-//get and shows description in div description
-function showDescription(){
-  FB.api(pageId,{fields:'description'},function(response){
-    $('#description').append(response.description);
-  });
-}
-
-
-function getAlbumInfo(){
-  FB.api(pageId,'GET',{"fields":"albums{name,location,cover_photo,likes}"},
-function(response){
-console.log(response.albums.data);
-  for(var i=0; i < response.albums.data.length; i++)
-  {
-    obj = {id:"",name:"",location:"",likes:"", url:""};
-
-    obj.id = response.albums.data[i].id;
-    console.log(obj.id);
-    obj.name = response.albums.data[i].name;
-    console.log(obj.name);
-    obj.location = response.albums.data[i].location;
-    console.log(obj.location);
-    if(typeof response.albums.data[i].likes === "undefined")
-    {
-      obj.likes = 0;
-    }
-    else{
-      obj.likes = response.albums.data[i].likes.data.length;
-    }
-
-    getCoverPhotoSource(response.albums.data[i].cover_photo.id,obj);
-    picArray.push(obj);
-  }
-
-  console.log(picArray);
-  console.log(picArray[0].id + " id i array0");
-  console.log(picArray[0].name + " name i array0");
-  console.log(picArray[0].location + " lcation i array0");
-  //console.log(picArray[0].url + " id i array0");
-  if(picArray[0].url !== undefined)
-  {
-    console.log("url exists");
-  }
-  else {
-    console.log("no url");
-  }
-  console.log(picArray[1].id + " id i array0");
-  console.log(picArray[1].name + " name i array0");
-
-  });
-}
-
-
-//Function to get URL to cover_photo
-function getCoverPhotoSource(id,obj){
-  FB.api('/'+id,'GET',{"fields":"source"}, function(response){
-    obj.url = response.source;
   });
 }
