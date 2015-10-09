@@ -1,6 +1,8 @@
 //DMS Travel id
 var pageId = "815157038515764";
 
+var picArray =[];
+
 //fFacebook SDK - include it on every page I want to use it
    window.fbAsyncInit = function() {
      FB.init({
@@ -38,7 +40,7 @@ var pageId = "815157038515764";
       accessToken = response.authResponse.accessToken;
 
         showDescription();
-        getNameLocationCoverPhoto();
+        getAlbumInfo();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -88,13 +90,6 @@ var pageId = "815157038515764";
 
   };
 
-
-
-
-
-
-
-
      // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
 /*function testAPI() {
@@ -107,6 +102,7 @@ var pageId = "815157038515764";
 }*/
 
 
+//Logout function
 function logOut(){
    FB.logout(function(response) {
   // user is now logged out
@@ -123,34 +119,54 @@ function showDescription(){
 }
 
 
-function getNameLocationCoverPhoto(){
+function getAlbumInfo(){
   FB.api(pageId,'GET',{"fields":"albums{name,location,cover_photo,likes}"},
 function(response){
-  console.log(response.albums); //response.albums gives the albums in a array
-  console.log("dette er respons fra testAPI2:  " + response.albums.data[0].name);
-  console.log("dette er respons fra testAPI2:  " + response.albums.data[0].location);
-  console.log("dette er respons fra testAPI2: id albums[0] " + response.albums.data[0].id);
-  console.log("likes pr album: " + response.albums.data[0].likes.data.length);
-  var name = response.albums.data[0].name;
-});
-}
+console.log(response.albums.data);
+  for(var i=0; i < response.albums.data.length; i++)
+  {
+    obj = {id:"",name:"",location:"",likes:"", url:""};
 
-function getCoverPhotoSource(id){
-  FB.api(id,'GET',{"fields":"source"}, function(response){
-    console.log("getCover: " + response.source);
-    return response.source;
+    obj.id = response.albums.data[i].id;
+    console.log(obj.id);
+    obj.name = response.albums.data[i].name;
+    console.log(obj.name);
+    obj.location = response.albums.data[i].location;
+    console.log(obj.location);
+    if(typeof response.albums.data[i].likes === "undefined")
+    {
+      obj.likes = 0;
+    }
+    else{
+      obj.likes = response.albums.data[i].likes.data.length;
+    }
+
+    getCoverPhotoSource(response.albums.data[i].cover_photo.id,obj);
+    picArray.push(obj);
+  }
+
+  console.log(picArray);
+  console.log(picArray[0].id + " id i array0");
+  console.log(picArray[0].name + " name i array0");
+  console.log(picArray[0].location + " lcation i array0");
+  //console.log(picArray[0].url + " id i array0");
+  if(picArray[0].url !== undefined)
+  {
+    console.log("url exists");
+  }
+  else {
+    console.log("no url");
+  }
+  console.log(picArray[1].id + " id i array0");
+  console.log(picArray[1].name + " name i array0");
+
   });
 }
 
 
-/*function makeFigure(object){
-  var test = object.cover_photo.id;
-  test = getCoverPhotoSource(test);
-  //console.log(src + " i makeFigure");
-
-  var caption = "<figcaption>" + object.name + "</figcaption>";
-  var img = "<img src='" + test + "'alt=></img>"; //remember alt
-  var a = "<a href='" + getCoverPhotoSource(object.cover_photo.id) + "' data-lightbox=image data-title='"+"'>" + "</a>";
-  var figur = "<figure>" + a + caption + "</figure>";
-  $('#name').append(figur);
-}*/
+//Function to get URL to cover_photo
+function getCoverPhotoSource(id,obj){
+  FB.api('/'+id,'GET',{"fields":"source"}, function(response){
+    obj.url = response.source;
+  });
+}

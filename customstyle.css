@@ -13,6 +13,10 @@
   color: white;
 }
 
+#content{
+  margin-top:3%;
+}
+
 
 .left{
   float:left;
@@ -23,7 +27,7 @@
 .right{
   float:right;
   margin-top: 10%;
-  margin-right:10%;
+  margin-right:40%;
 }
 
 
@@ -33,7 +37,8 @@
   background-color: black;
   color:white;
   width: 100%;
-  min-height: 6%;
+  /*min-height: 6%; */
+  max-height: 35px;
   top:0;
   left:0;
   padding-top:4px;
