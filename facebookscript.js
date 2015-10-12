@@ -1,5 +1,3 @@
-
-
 //fFacebook SDK - include it on every page I want to use it
    window.fbAsyncInit = function() {
      FB.init({
@@ -31,15 +29,11 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-
-
-      //testAPI();
       $('#splash').hide();
       $('#content').show();
-      accessToken = response.authResponse.accessToken;
-
-        showDescription();
-        getAlbumInfo();
+      showDescription();
+      getMainThumb();
+      //getThumbnails();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -62,49 +56,14 @@
     });
   }
 
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '771155319662299',
-    cookie     : true,  // enable cookies to allow the server to access
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.2' // use version 2.2
-  });
-
-  // Now that we've initialized the JavaScript SDK, we call
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
-  };
-
-     // Here we run a very simple test of the Graph API after login is
-// successful.  See statusChangeCallback() for when this call is made.
-/*function testAPI() {
-  console.log('Welcome!  Fetching your information.... ');
-  FB.api('/me', function(response) {
-    console.log('Successful login for: ' + response.name);
-    /*document.getElementById('status').innerHTML =
-      'Thanks for logging in, ' + response.name + '!';
-  });
-}*/
-
 
 //Logout function
 function logOut(){
    FB.logout(function(response) {
   // user is now logged out
+  $('#description').html("");
+  $('#thumbs').html("");
+  $('#thirdRow').html("");
   console.log("User is now logged out");
   });
 }

@@ -2,13 +2,6 @@ $(function(){
   $('#content').hide();
 });
 
-$(function(){
-  $('#testbtn').click(function(){
-    //$('#splash').hide();
-    //$('#content').show();
-    });
-});
-
 
 $(function(){
   $('#logoutBtn').click(function(){
@@ -20,10 +13,11 @@ $(function(){
 
 
 
+
 //DMS Travel id
 var pageId = "815157038515764";
-
-var picArray =[];
+var array = [];
+var obj = {};
 
 
 //get and shows description in div description
@@ -33,57 +27,117 @@ function showDescription(){
   });
 }
 
+function getMainThumb(){
+  FB.api(pageId,'GET',{"fields":"albums{id,name,location,cover_photo,likes}"},function(response){
+console.log(response);
+
+  var albumId ="";
+  var albumName ="";
+  var albumLocation ="";
+  var albumCoverPhotoId ="";
+  var albumCoverPhotoName ="";
+  var albumLikes =0;
+  var coverPhotoSource = "";
 
 
-function getAlbumInfo(){
-  FB.api(pageId,'GET',{"fields":"albums{name,location,cover_photo,likes}"},
-function(response){
-console.log(response.albums.data);
-  for(var i=0; i < response.albums.data.length; i++)
-  {
-    obj = {id:"",name:"",location:"",likes:"", url:""};
-
-    obj.id = response.albums.data[i].id;
-    console.log(obj.id);
-    obj.name = response.albums.data[i].name;
-    console.log(obj.name);
-    obj.location = response.albums.data[i].location;
-    console.log(obj.location);
-    if(typeof response.albums.data[i].likes === "undefined")
+    for(var i = 0; i < response.albums.data.length;i++)
     {
-      obj.likes = 0;
+      id = response.albums.data[i].id;
+      albumName = response.albums.data[i].name;
+      albumCoverPhotoId = response.albums.data[i].cover_photo.id;
+
+      if(typeof response.albums.data[i].location === "undefined")
+      {
+        albumLocation = "Location unknown";
+      }
+      else{
+        albumLocation = response.albums.data[i].location;
+      }
+
+
+      if(typeof response.albums.data[i].likes === "undefined")
+      {
+        albumLikes = 0;
+      }
+      else{
+        albumLikes = response.albums.data[i].likes.data.length;
+      }
+
+      obj = {albumId:id, albumName:albumName, albumLocation:albumLocation, albumCoverPhotoId:albumCoverPhotoId, albumCoverPhotoName:albumCoverPhotoName,likes:albumLikes};
+
+      //console.log("*********************************");
+      console.log(obj.albumLocation + " albumlocation");
+      indexAustralia = obj.albumLocation.indexOf("Australia");
+      console.log(indexAustralia + " index");
+      if( indexAustralia !== -1)
+      {
+        getUrl(albumCoverPhotoId,obj);
+      }
     }
-    else{
-      obj.likes = response.albums.data[i].likes.data.length;
-    }
 
-    getCoverPhotoSource(response.albums.data[i].cover_photo.id,obj);
-    picArray.push(obj);
-  }
+  });
+} //end of getThumb
 
-  console.log(picArray);
-  console.log(picArray[0].id + " id i array0");
-  console.log(picArray[0].name + " name i array0");
-  console.log(picArray[0].location + " lcation i array0");
-  //console.log(picArray[0].url + " id i array0");
-  if(picArray[0].url !== undefined)
-  {
-    console.log("url exists");
-    console.log(picArray[0].url);
-  }
-  else {
-    console.log("no url");
-  }
-  console.log(picArray[1].id + " id i array0");
-  console.log(picArray[1].name + " name i array0");
 
+
+//Get URL for main thumbnails and show them in #secondRow
+function getUrl(albumCoverPhotoId,obj){
+  console.log("get into getURL");
+
+  FB.api(albumCoverPhotoId,'GET',{"fields":"source"},function(response){
+    var source = response.source;
+    var testname = obj.albumName;
+    var likes = obj.likes;
+    var id = obj.albumId;
+    console.log("id i getURL: " + id);
+
+    var caption = "<figcaption>" + testname + " <br>Likes: " + likes + " </figcaption>";
+    var img = "<img class='mainThumb' id='"+id+"'  src='" + source + "'alt='' onclick='getThumbnails("+id+")'></img>"; //remember alt
+    //var a = "<a href='" + source + "' data-lightbox=image data-title='"+"'>" + img + "</a>";
+    var figur = "<figure class='mainT'>" +img + caption + "</figure>";
+    $('#thumbs').append(figur);
   });
 }
 
 
-//Function to get URL to cover_photo
-function getCoverPhotoSource(id,obj){
-  FB.api('/'+id,'GET',{"fields":"source"}, function(response){
-    obj.url = response.source;
+//Get thumbnails for showing after user clicked main thumbnail on page
+function getThumbnails(id){
+  $('#thirdRow').html("");
+  FB.api('/'+id,'GET',{"fields":"photos{images,name},id"},function(response){
+    console.log(response);
+
+      for(var i =0; i < response.photos.data.length; i++)
+      {
+        if(typeof response.photos.data[i].name === "undefined" )
+        {
+          capt = "No title";
+        }
+        else
+        {
+          capt = response.photos.data[i].name;
+        }
+
+        //console.log("CAPT I første løkke: " + capt);
+        //console.log("IMAGES: " + response.photos.data[i].images[0].source);
+        for(var j=0; j < response.photos.data[i].images.length;j++)
+        {
+
+          var largest = response.photos.data[i].images[0].source;
+          console.log("largest source: " + largest);
+
+          if(response.photos.data[i].images[j].height === 320)
+          {
+            var source320 = response.photos.data[i].images[j].source;
+            //console.log("SOURCE 320: " + source320);
+
+            var caption = "<figcaption>" + capt + "</figcaption>";
+            var img = "<img class='thumbPicture' src='" + source320 + "'alt=></img>"; //remember alt
+            var a = "<a href='" + largest + "'data-lightbox=image data-title='"+capt+"'>"+img+"</a>";
+            var figure = "<figure>"+ a + caption + "</figure>";
+            $('#thirdRow').append(figure);
+          }
+        }
+      }
+
   });
 }

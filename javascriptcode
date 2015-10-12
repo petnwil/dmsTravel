@@ -1,0 +1,68 @@
+/*
+function getAlbumInfo(){
+  FB.api(pageId,'GET',{"fields":"albums{name,location,cover_photo,likes}"},
+function(response){
+console.log(response.albums.data);
+  for(var i=0; i < response.albums.data.length; i++)
+  {
+    var pic = {};
+
+    pic.id = response.albums.data[i].id;
+    console.log(pic.id);
+    pic.name = response.albums.data[i].name;
+    console.log(pic.name);
+    pic.location = response.albums.data[i].location;
+    console.log(pic.location);
+
+    if(typeof response.albums.data[i].likes === "undefined")
+    {
+      pic.likes = 0;
+    }
+    else{
+      pic.likes = response.albums.data[i].likes.data.length;
+    }
+
+    getCoverPhotoSource(response.albums.data[i].cover_photo.id,pic);
+    picArray.push(pic);
+
+
+  }
+
+  /*console.log(picArray);
+  console.log(picArray[0].id + " id i array0");
+  console.log(picArray[0].name + " name i array0");
+  console.log(picArray[0].location + " location i array0");
+  //console.log(picArray[0].url + " id i array0");
+  if(picArray[0].url !== undefined)
+  {
+    console.log("url exists");
+    console.log(picArray[0].url);
+  }
+  else {
+    console.log("no url");
+  }
+  console.log(picArray[1].id + " id i array0");
+  console.log(picArray[1].name + " name i array0");
+console.log(picArray);
+console.log(picArray[0].data);
+
+  });
+}
+
+
+//Function to get URL to cover_photo
+function getCoverPhotoSource(id,pic){
+  console.log(id + "id in getCover");
+  FB.api('/'+id,'GET',{"fields":"source"}, function(response){
+    pic.url = response.source;
+  });
+}
+
+function showThumb(source){
+  var img = "<img src='" + source + "'alt=></img>";
+  $('#secondRow').append(img);
+}
+
+function getUrl(url){
+  console.log(url);
+}*/
