@@ -33,7 +33,7 @@
       $('#content').show();
       showDescription();
       getMainThumb();
-      //getThumbnails();
+      getComments();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -63,7 +63,9 @@ function logOut(){
   // user is now logged out
   $('#description').html("");
   $('#thumbs').html("");
-  $('#thirdRow').html("");
+  $('#postTitle').html("");
+  $('#posts').html("");
+  $('#fourthRow').html("");
   console.log("User is now logged out");
   });
 }

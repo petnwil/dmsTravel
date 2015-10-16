@@ -2,7 +2,7 @@
   min-width: 100%;
   min-height: 100%;
   /*background-color: #CCFFFF; */
-  background-image: url("images/backgroundPicture.jpg");
+  background-image: url("images/backgroundPictureBlackWhite.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;
@@ -13,16 +13,17 @@
   color: white;
 }
 
-.left{
-  float:left;
-  margin-top: 10%;
-  margin-left:10%;
+
+#welcomeDiv{
+  margin-top: 25%;
+  margin-left: 36%;
+  margin-right: 10%;
+  font-size: 1.8em;
+  font-family: 'Trebuchet MS', sans-serif;
 }
 
-.right{
-  float:right;
-  margin-top: 10%;
-  margin-right:40%;
+#loginButton{
+  margin-left: 17%;
 }
 
 
@@ -37,6 +38,7 @@
   left:0;
   padding-top:4px;
   padding-left: 3px;
+  opacity: 0.85;
 }
 
 
@@ -57,8 +59,9 @@
 }
 
 #firstRow{
-  height: 600px;
-  background-color: blue;
+  overflow: auto;
+  min-height: 500px;
+  background-color: #B8B8B8;
 }
 
 #description{
@@ -103,14 +106,54 @@ figcaption{
 }
 
 #secondRow{
-  height: 700px;
-  background-color: #00FFFF;
+  overflow: auto;
+  min-height: 500px;
+  background-color: #FFFFFF;
   padding: 15px;
 }
 
+#postTitle{
+  float:left;
+  margin-top: 10%;
+  margin-left: 5%;
+}
+
+#posts{
+  float:right;
+  margin-top: 10%;
+  margin-right: 15%;
+}
+
+#post{
+  margin:10%;
+}
 
 #thirdRow{
-  height: 500px;
-  background-color:yellow;
+  overflow: auto;
+  /*height: 500px;*/
+  background-color:#B8B8B8;
   padding: 15px;
+  font-size: 20px;
+}
+
+.likeButton{
+  background: #4c66a4;
+  color:white;
+  border: none;
+  border-radius: 50px;
+}
+
+#fourthRow{
+  background-color: #FFFFFF;
+}
+
+#logoutButton{
+  position: relative;
+  float:right;
+  opacity: none;
+  background:#4c66a4;
+  border: none;
+  color: white;
+  margin-right:3%;
+  margin-top:5px;
 }
