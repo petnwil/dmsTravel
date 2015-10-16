@@ -15,43 +15,52 @@
 
 
 #welcomeDiv{
-  margin-top: 25%;
-  margin-left: 36%;
+  margin-top: 60%;
+  margin-left: 14%;
   margin-right: 10%;
   font-size: 1.8em;
   font-family: 'Trebuchet MS', sans-serif;
 }
 
 #loginButton{
-  margin-left: 17%;
+  /*margin-left: 17%; */
 }
 
 
 #menu{
   position: fixed;
   font-size: 18px;
-  background-color: black;
+  background-color: #696969;
   color:white;
+  font-family: 'Trebuchet MS', sans-serif;
   min-width: 100%;
   height: 35px;
   top:0;
   left:0;
-  padding-top:4px;
+  padding-top:1%;
   padding-left: 3px;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 
 .menuItem{
+  margin-left: 1.5%;
   width: 110px;
   height: 30px;
   display: inline;
 }
 
-#logoutBtn{
+#logoutButton{
   position: relative;
   float:right;
-  margin-right:15px;
+  opacity: none;
+  background:#4c66a4;
+  border: none;
+  color: white;
+  margin-right:3%;
+  margin-top:5px;
+  border-radius: 50px;
+  font-family: 'Trebuchet MS', sans-serif;
 }
 
 #content{
@@ -62,15 +71,63 @@
   overflow: auto;
   min-height: 500px;
   background-color: #B8B8B8;
+  color:white;
 }
 
 #description{
-  margin-left: 35%;
+  margin-left: 28%;
   /*margin-right: 30%; */
-  margin-top: 10%;
+  margin-top: 15%;
   max-width: 50%;
   height: 40%;
   font-size: 1.2em;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#secondRow{
+  overflow: auto;
+  min-height: 450px;
+  background-color: #FFFFFF;
+  padding: 15px;
+  color:#B8B8B8;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#postTitle{
+  float:left;
+  margin-top: 18%;
+  margin-left: 5%;
+  font-size: 1.7em;
+}
+
+#posts{
+  float:right;
+  margin-top: 14%;
+  margin-right: 15%;
+  margin-left: 10%;
+}
+
+#post{
+  margin-bottom: 14%;
+}
+
+#message{
+  margin-bottom: 1%;
+  font-size: 1.4em;
+}
+
+#author{
+  color:#4c66a4;
+}
+
+#thirdRow{
+  overflow: auto;
+  /*height: 500px;*/
+  background-color:#B8B8B8;
+  font-family: 'Trebuchet MS', sans-serif;
+  color:white;
+  padding: 15px;
+  font-size: 20px;
 }
 
 .mainThumb{
@@ -78,6 +135,7 @@
   height: 250px;
   float:left;
   border-radius: 150px;
+  /*border: solid 1px white;*/
 }
 
 .thumbPicture{
@@ -105,35 +163,9 @@ figcaption{
   font-size: 16px;
 }
 
-#secondRow{
-  overflow: auto;
-  min-height: 500px;
-  background-color: #FFFFFF;
-  padding: 15px;
-}
-
-#postTitle{
-  float:left;
-  margin-top: 10%;
-  margin-left: 5%;
-}
-
-#posts{
-  float:right;
-  margin-top: 10%;
-  margin-right: 15%;
-}
-
-#post{
-  margin:10%;
-}
-
-#thirdRow{
-  overflow: auto;
-  /*height: 500px;*/
-  background-color:#B8B8B8;
-  padding: 15px;
-  font-size: 20px;
+#thumbs{
+  margin-left: 20%;
+  margin-right: 5%;
 }
 
 .likeButton{
@@ -145,15 +177,4 @@ figcaption{
 
 #fourthRow{
   background-color: #FFFFFF;
-}
-
-#logoutButton{
-  position: relative;
-  float:right;
-  opacity: none;
-  background:#4c66a4;
-  border: none;
-  color: white;
-  margin-right:3%;
-  margin-top:5px;
 }

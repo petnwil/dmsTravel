@@ -5,7 +5,7 @@ $(function(){
 
 
 $(function(){
-  $('#logoutBtn').click(function(){
+  $('#logoutButton').click(function(){
     logOut(); //function from facebookscript.js
     $('#content').hide();
     $('#splash').show();
@@ -178,9 +178,11 @@ function getComments(){
           //console.log(response.feed.data[i].likes.data[j]);
           if(response.feed.data[i].likes.data[j].id === adminID)
           {
+            var author = response.feed.data[i].likes.data[j].name;
             console.log("GETTING ID");
             console.log("this should be id: " + adminID + " " +response.feed.data[i].likes.data[j].id);
-            var post = "<p id='post'>"+response.feed.data[i].message+"</p>";
+            var post = "<div  id='post'> <p id='message'>"+response.feed.data[i].message+"</p>";
+            post += "<div id='author'> -" + author+ "</div> </div>";
             $('#posts').append(post);
           }
         }
@@ -199,7 +201,8 @@ function likePic(photoId){
   photoId = photoId.toString();
   photoId = photoId+"/likes";
   console.log(photoId);
- FB.api(photoId,'POST',{},function(response){
+
+  FB.api(photoId,'POST',{},function(response){
     console.log(response);
   });
 }
