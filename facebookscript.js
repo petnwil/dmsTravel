@@ -69,3 +69,10 @@ function logOut(){
   console.log("User is now logged out");
   });
 }
+
+function logIn(){
+  FB.login(function(response){
+    console.log("User logged in!");
+    statusChangeCallback(response);
+  },{scope:'public_profile,email'});
+}

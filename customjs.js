@@ -3,6 +3,11 @@ $(function(){
   $('#fourthRow').hide();
 });
 
+$(function(){
+  $('#loginButton').click(function(){
+    logIn();
+  });
+});
 
 $(function(){
   $('#logoutButton').click(function(){
@@ -20,8 +25,6 @@ $(function(){
 });
 
 
-
-
 //DMS Travel id
 var pageId = "815157038515764";
 var array = [];
@@ -35,9 +38,11 @@ function showDescription(){
   });
 }
 
+
+//Get the thumbnails for the albums
 function getMainThumb(){
   FB.api(pageId,'GET',{"fields":"albums{id,name,location,cover_photo,likes}"},function(response){
-console.log(response);
+    console.log(response);
 
   var albumId ="";
   var albumName ="";
@@ -94,12 +99,12 @@ function getUrl(albumCoverPhotoId,obj){
 
   FB.api(albumCoverPhotoId,'GET',{"fields":"source"},function(response){
     var source = response.source;
-    var testname = obj.albumName;
+    var albumName = obj.albumName;
     var likes = obj.likes;
     var id = obj.albumId;
     //console.log("id i getURL: " + id);
 
-    var caption = "<figcaption>" + testname + " <br>Likes: " + likes + " </figcaption>";
+    var caption = "<figcaption>" + albumName + " <br>Likes " + likes + " </figcaption>";
     var img = "<img class='mainThumb' id='"+id+"'  src='" + source + "'alt='' onclick='getThumbnails("+id+")'></img>"; //remember alt
     //var a = "<a href='" + source + "' data-lightbox=image data-title='"+"'>" + img + "</a>";
     var figur = "<figure class='mainT'>" +img + caption+ "</figure>";
@@ -112,6 +117,7 @@ function getUrl(albumCoverPhotoId,obj){
 //Get thumbnails for showing album after user clicked main thumbnail
 function getThumbnails(id){
   $('#fourthRow').html("");
+  $('#fourthRow').show();
   FB.api('/'+id,'GET',{"fields":"photos{images,name},id"},function(response){
     console.log(response);
 
@@ -122,7 +128,7 @@ function getThumbnails(id){
 
         if(typeof response.photos.data[i].name === "undefined" )
         {
-          capt = "No title";
+          capt = "noTitle";
         }
         else
         {
@@ -142,18 +148,26 @@ function getThumbnails(id){
             var source320 = response.photos.data[i].images[j].source;
             //console.log("SOURCE 320: " + source320);
 
-            var caption = "<figcaption>" + capt + "</figcaption>";
+
             var img = "<img class='thumbPicture' src='" + source320 + "'alt=></img>"; //remember alt
             var a = "<a href='" + largest + "'data-lightbox=image data-title='"+capt+"'>"+img+"</a>";
             var like = "Like";
             var button = "<button class='likeButton' id='"+photoId+"' onclick='likePic("+photoId+")'>"+like+"</button>";
+            var caption = "<figcaption>" + capt + "</figcaption>";
             var figure = "<figure>"+ a + caption + button +"</figure>";
             $('#fourthRow').append(figure);
           }
         }
+        var text = "Back to Albums";
+        $('#placeButton').append("<button id='upButton'>"+text+"</button>");
       }
-      $('#fourthRow').show();
+      //$('#fourthRow').show();
+
   });
+//console.log("OVER SCROLL");
+  //setTimeout(scroll(),5000);
+  scroll();
+  //console.log("PASS SCROLL");
 }
 
 
@@ -196,6 +210,7 @@ function getComments(){
 }
 
 
+//Like a picture when user clicks "like" button under thumbnail
 function likePic(photoId){
   console.log(photoId);
   photoId = photoId.toString();
@@ -204,5 +219,22 @@ function likePic(photoId){
 
   FB.api(photoId,'POST',{},function(response){
     console.log(response);
+  });
+}
+
+
+//Scroll down to last row when user clicks one of the main thumbnails
+function scroll(){
+  console.log("SCROLL CALLED");
+  $('html,body').animate({
+    scrollTop: $("#fourthRow").offset().top
+  },2000);
+}
+
+
+//Check id for person logged in
+function checkId(){
+  FB.api('/me','GET',{"fields":"id"},function(response){
+    var myId = response.id;
   });
 }
