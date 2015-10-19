@@ -145,12 +145,19 @@
   /*border: solid 1px white;*/
 }
 
+.mainThumb:hover{
+  width:265px;
+  height: 270px;
+  border:solid 2px white;
+}
+
 .thumbPicture{
   width:250px;
   height: 250px;
   float:left;
   border-radius: 150px;
 }
+
 
 figure{
   float: left;
