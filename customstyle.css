@@ -184,7 +184,12 @@ figcaption{
 }
 
 .likeButton{
+  background:none;
+  border:black solid 1px;
+  color:black;
+}
 
+.unlikeButton{
   background:none;
   border:black solid 1px;
   color:black;

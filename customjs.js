@@ -118,13 +118,26 @@ function getUrl(albumCoverPhotoId,obj){
 function getThumbnails(id){
   $('#fourthRow').html("");
   $('#fourthRow').show();
-  FB.api('/'+id,'GET',{"fields":"photos{images,name},id"},function(response){
+  console.log("INTO GETTHUMBNAILS");
+  FB.api('/'+id,'GET',{"fields":"photos{images,name,likes{id}},id"},function(response){
     console.log(response);
 
       for(var i =0; i < response.photos.data.length; i++)
       {
 
         var photoId = response.photos.data[i].id;
+
+        /*var likeArray;
+        if(typeof response.photos.data[i].likes === "undefined")
+        {
+          likeArray = ["0"];
+        }
+        else
+        {
+          likeArray = response.photos.data[i].likes.data;
+          checkLike(likeArray,button,photoId);
+        }*/
+
 
         if(typeof response.photos.data[i].name === "undefined" )
         {
@@ -151,10 +164,14 @@ function getThumbnails(id){
 
             var img = "<img class='thumbPicture' src='" + source320 + "'alt=></img>"; //remember alt
             var a = "<a href='" + largest + "'data-lightbox=image data-title='"+capt+"'>"+img+"</a>";
-            var like = "Like";
-            var button = "<button class='likeButton' id='"+photoId+"' onclick='likePic("+photoId+")'>"+like+"</button>";
             var caption = "<figcaption>" + capt + "</figcaption>";
-            var figure = "<figure>"+ a + caption + button +"</figure>";
+            var like = "Like";
+            var likeButton = "<button class='likeButton' id='"+photoId+"' onclick='likePic("+photoId+")'>"+like+"</button>";
+            var unlike = "Unlike";
+            var unlikeButton = "<button class='unlikeButton' id='"+photoId+"' onclick='unlikePic("+photoId+")'>"+unlike+"</button>";
+
+            var figure = "<figure>"+ a + caption + likeButton + unlikeButton + "</figure>";
+
             $('#fourthRow').append(figure);
           }
         }
@@ -222,6 +239,15 @@ function likePic(photoId){
   });
 }
 
+function unlikePic(photoId){
+  photoId = photoId.toString();
+  photoId = photoId+"/likes";
+
+  FB.api(photoId,'DELETE',{},function(response){
+    console.log(response);
+  });
+}
+
 
 //Scroll down to last row when user clicks one of the main thumbnails
 function scroll(){
@@ -232,9 +258,30 @@ function scroll(){
 }
 
 
-//Check id for person logged in
-function checkId(){
+//Check id for person logged in and check if this person have liked a photo
+/*function checkLike(likeArray,button,photoId){
+  console.log(button);
+  //console.log("INTO CHECKLIKE");
   FB.api('/me','GET',{"fields":"id"},function(response){
     var myId = response.id;
+    console.log("MYID " + myId);
+
+    for(var i = 0; i < likeArray.length; i++)
+    {
+
+      console.log("LIKEARRAY id inside for loop: " + likeArray[i].id);
+      if(myId === likeArray[i].id)
+      {
+        console.log("ID INSIDE LIKEARRAY: " +likeArray[i].id);
+        console.log("ID IS THE SAME");
+        var like = "Like";
+        button = "<button class='likeButton' id='"+photoId+"' onclick='likePic("+photoId+")'>"+like+"</button>";
+      }
+      else{
+        var unlike ="Unlike";
+        button = "<button class='button' id='"+photoId+"' onclick='unlikePic("+photoId+")'>"+unlike+"</button>";
+      }
+    }
   });
-}
+  return button;
+}// end of checkLike */
