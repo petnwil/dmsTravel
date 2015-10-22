@@ -1,0 +1,273 @@
+#splash{
+  min-width: 100%;
+  min-height: 100%;
+  /*background-color: #CCFFFF; */
+  background-image: url("../images/backgroundPictureBlackWhite.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: fixed;
+  padding:0;
+  margin:0;
+  top:0;
+  left:0;
+  color: white;
+}
+
+#blueQ{
+  color:#4c66a4;
+}
+
+#welcomeDiv{
+  position: fixed;
+  bottom: 15%;
+  margin-top: 45%;
+  margin-left: 14%;
+  margin-right: 10%;
+  font-size: 1.8em;
+  font-family: 'Trebuchet MS', sans-serif;
+  animation: slideUpWelcome 6s;
+  animation-iteration-count: no-repeat;
+}
+
+@keyframes slideUpWelcome{
+  0% {bottom:-20%}
+/*  20%{bottom:-10}
+  40%{bottom:-5%}
+  60%{bottom:0%}
+  80%{bottom:5%}*/
+  100{bottom:15%}
+}
+
+@-webkit-keyframes slideUpWelcome{
+  0% {bottom:-20%}
+  /*20%{bottom:-13.33%}
+  40%{bottom:-10%}
+  60%{bottom:-6.33%}
+  80%{bottom:-3%}*/
+  100{bottom:15%}
+}
+
+
+
+#loginButton{
+  background:none;
+  border:white solid 1px;
+  color:white;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+/*#loginButton:hover{
+  border:#4c66a4 solid 1px;
+  color:#4c66a4;
+  font-family: 'Trebuchet MS', sans-serif;
+}*/
+
+#menu{
+  position: fixed;
+  font-size: 18px;
+  background-color: #696969;
+  color:white;
+  font-family: 'Trebuchet MS', sans-serif;
+  min-width: 100%;
+  height: 35px;
+  left:0;
+  padding-top:1%;
+  padding-left: 3px;
+  opacity: 0.9;
+  top:-37px;
+  transition: 2s;
+}
+
+#menu:hover{
+  transform: translateY(36px);
+  -webkit-transform:translateY(36px);
+}
+
+
+.menuItem{
+  margin-left: 1.5%;
+  width: 110px;
+  height: 30px;
+  display: inline;
+}
+
+a{
+  text-decoration:none;
+  color:white;
+}
+
+a.visited{
+  text-decoration:none;
+}
+
+
+#logoutButton{
+  position: relative;
+  float:right;
+  opacity: none;
+  background:none;
+  border:white solid 1px;
+  color:white;
+  margin-right:3%;
+  margin-top:3px;
+  /*border-radius: 50px;*/
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#content{
+  margin: 0 -0.5em;
+  bottom: 0;
+}
+
+#firstRow{
+  overflow: auto;
+  min-height: 500px;
+  background-color: #B8B8B8;
+  color:white;
+}
+
+#description{
+  margin-left: 28%;
+  /*margin-right: 30%; */
+  margin-top: 13%;
+  max-width: 50%;
+  height: 40%;
+  font-size: 1.2em;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#secondRow{
+  overflow: auto;
+  min-height: 400px;
+  background-color: #FFFFFF;
+  padding: 15px;
+  color:#4c66a4;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#postTitle{
+  float:left;
+  margin-top: 12%;
+  margin-left: 12%;
+  font-size: 1.7em;
+}
+
+#posts{
+  float:right;
+  margin-top: 8%;
+  margin-right: 15%;
+  margin-left: 8%;
+}
+
+#post{
+  margin-bottom: 15%;
+}
+
+#message{
+  margin-bottom: 1%;
+  font-size: 1.4em;
+  color:#B8B8B8;
+}
+
+#author{
+  color:#4c66a4;
+}
+
+#thirdRow{
+  overflow: auto;
+  min-height: 500px;
+  background-color:#B8B8B8;
+  font-family: 'Trebuchet MS', sans-serif;
+  color:white;
+  padding: 15px;
+  font-size: 20px;
+}
+
+#persLikeMain{
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 0.7em;
+  color:white;
+}
+
+.mainThumb{
+  width:250px;
+  height: 250px;
+  float:left;
+  border-radius: 150px;
+  /*border: solid 1px white;*/
+}
+
+.mainThumb:hover{
+  width:265px;
+  height: 270px;
+  border:solid 2px #4c66a4;
+  color:#4c66a4;
+}
+
+.thumbPicture{
+  width:250px;
+  height: 250px;
+  float:left;
+  border-radius: 150px;
+}
+
+
+figure{
+  float: left;
+  /*border: solid black 1px; */
+  min-height: 310px;
+  width: 270px;
+  text-align: center;
+  overflow: hidden;
+  margin: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+}
+
+figcaption{
+  padding-top: 8px;
+  font-size: 16px;
+}
+
+#thumbs{
+  margin-top:5%;
+  margin-left: 10%;
+  margin-right: 5%;
+}
+
+.likeButton{
+  background:none;
+  border:black solid 1px;
+  color:black;
+}
+
+.unlikeButton{
+  background:none;
+  border:black solid 1px;
+  color:black;
+}
+
+#fourthRow{
+  margin-top:5%;
+  margin-left:10%;
+  margin-right: 5%;
+  background-color: #FFFFFF;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+#persLike{
+  font-family: 'Trebuchet MS', sans-serif;
+  font-size: 0.7em;
+  color:#4c66a4;
+}
+
+#upButton{
+  position: relative;
+  bottom:0;
+  float:right;
+  background: none;
+  border:black 1px solid;
+  font-family: 'Trebuchet MS', sans-serif;
+  color:black;
+}
