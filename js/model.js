@@ -29,7 +29,8 @@
       // Logged into your app and Facebook.
       $('#splash').hide();
       $('#content').show();
-      model.showDescription();
+      $('#menu').show();
+      model.getDescription();
       model.getMainThumb();
       model.getComments();
 
@@ -62,15 +63,17 @@ model.obj = {};
 //Logout function
 model.logOut = function(){
    FB.logout(function(response) {
-  // user is now logged out
-  $('#description').html("");
-  $('#thumbs').html("");
-  $('#postTitle').html("");
-  $('#posts').html("");
-  $('#fourthRow').html("");
-  $('#content').hide();
-  $('#splash').show();
-  console.log("User is now logged out");
+      $('#description').html("");
+      $('#thumbs').html("");
+      $('#postTitle').html("");
+      $('#posts').html("");
+      $('#fourthRow').html("");
+      $('#content').hide();
+      $('#documentation').hide();
+      $('#about').hide();
+      $('#menu').hide();
+      $('#splash').show();
+      console.log("User is now logged out");
   });
 };
 
@@ -82,7 +85,7 @@ model.logIn = function(){
 };
 
 //get and shows description in div description
-model.showDescription = function(){
+model.getDescription = function(){
   FB.api(model.pageId,{fields:'description'},function(response){
     view.displayDescription(response.description);
   });

@@ -4,7 +4,10 @@ var view = {};
 
 $(function(){
   $('#content').hide();
+  $('#menu').hide();
+  $('#about').hide();
   $('#fourthRow').hide();
+  $('#documentation').hide();
 });
 
 $(function(){
@@ -15,8 +18,31 @@ $(function(){
 
 $(function(){
   $('#logoutButton').click(function(){
-    model.logOut(); //function from facebookscript.js
+    model.logOut();
+  });
+});
 
+$(function(){
+  $('#docPage').click(function(){
+      $('#content').hide();
+      $('#about').hide();
+      $('#documentation').show();
+  });
+});
+
+$(function(){
+  $('#aboutPage').click(function(){
+    $('#content').hide();
+    $('#documentation').hide();
+    $('#about').show();
+  });
+});
+
+$(function(){
+  $('#contentPage').click(function(){
+    $('#about').hide();
+    $('#documentation').hide();
+    $('#content').show();
   });
 });
 
