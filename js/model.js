@@ -93,7 +93,7 @@ model.getDescription = function(){
 
 //Get the thumbnails for the albums
 model.getMainThumb = function(){
-  FB.api(model.pageId,'GET',{"fields":"albums{id,name,location,cover_photo,likes}"},function(response){
+  FB.api(model.pageId,'GET',{"fields":"albums{id,name,location,cover_photo,likes.limit(150)}"},function(response){
     console.log(response);
 
   var albumId ="";
@@ -169,10 +169,10 @@ model.getThumbnails =function(id){
   $('#fourthRow').html("");
   $('#fourthRow').show();
   console.log("INTO GETTHUMBNAILS");
-  FB.api('/'+id,'GET',{"fields":"photos{images,name,likes{id}},id"},function(response){
+  FB.api('/'+id,'GET',{"fields":"photos{images,name,likes.limit(150){id}},id"},function(response){
     console.log(response);
       var likes;
-      var button = "<button>TESTTEST</button>";
+      var albumId = id;
 
       for(var i =0; i < response.photos.data.length; i++)
       {
@@ -210,8 +210,9 @@ model.getThumbnails =function(id){
           if(response.photos.data[i].images[j].height === 320)
           {
             var source320 = response.photos.data[i].images[j].source;
-            //console.log("SOURCE 320: " + source320);
-            view.displayThumbs(source320,largest,capt,photoId,likes);
+
+            //view.displayThumbs(source320,largest,capt,photoId,likes);
+            model.checkLike(photoId,source320,largest,capt,likes,albumId);
           }
         }
       }
@@ -263,7 +264,7 @@ model.getComments = function(){
 }; //end of getComments
 
 //Like a picture when user clicks "like" button under thumbnail
-model.likePic =function(photoId){
+model.likePic =function(photoId,albumId){
   console.log(photoId);
   photoId = photoId.toString();
   photoId = photoId+"/likes";
@@ -271,27 +272,43 @@ model.likePic =function(photoId){
 
   FB.api(photoId,'POST',{},function(response){
     console.log(response);
+    model.getThumbnails(albumId);
   });
 };
 
 //Unlike a picture when user clicks "unlike" button under thumbnail
-model.unlikePic = function(photoId){
+model.unlikePic = function(photoId,albumId){
   photoId = photoId.toString();
   photoId = photoId+"/likes";
 
   FB.api(photoId,'DELETE',{},function(response){
     console.log(response);
+      model.getThumbnails(albumId);
   });
 };
 
-/*check if picture is likes
-model.checkLike = function(id,button){
+//check if picture is likes
+model.checkLike = function(photoId,source,largest,caption,likes,albumId){
   FB.api('/me','GET',{"fields":"id"},function(response){
-    if(response.id === id)
-    {
-      console.log("ID IS THE SAME");
-      $('#fourthRow').append("<button>test</button>");
-      console.log("AFTER APPEND TO FOURTHROW");
-    }
+    myId = response.id;
+    console.log("myId in first " + myId);
+
+    FB.api('/'+photoId,'GET',{"fields":"likes{id}"},function(response){
+      console.log("myId in second api call " + myId);
+      console.log("ALBUMID IN CHECKLIKE AFTER API: " + albumId);
+      var bool = false;
+      for(var i = 0; i < response.likes.data.length; i++)
+      {
+        if(myId === response.likes.data[i].id)
+        {
+          //console.log("ID IS THE SAME");
+          bool = true;
+          //return true;
+        }
+      }
+      console.log("BOOL in checkLike: " + bool);
+      view.displayThumbs(source,largest,caption,photoId,likes,bool,albumId);
+    });
+
   });
-}; */
+};
