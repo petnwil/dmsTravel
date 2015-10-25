@@ -159,7 +159,6 @@ a.visited{
   margin-right: 2%;
   margin-top: 6%;
   margin-right: 15%;
-  /*margin-left: 8%; */
 }
 
 #post{
@@ -213,7 +212,6 @@ a.visited{
   float:left;
   border-radius: 150px;
 }
-
 
 figure{
   float: left;
@@ -294,7 +292,6 @@ figcaption{
 #repetition{
   min-height: 200px;
   background-color: white;
-
   margin-top: 5%;
 }
 

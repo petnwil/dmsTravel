@@ -19,10 +19,6 @@
 
 // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    /*The response object is returned with a status field that lets the
-     app know the current login status of the person.
-     Full docs on the response object can be found in the documentation */
-    // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       $('#splash').hide();
@@ -163,10 +159,7 @@ model.getUrl = function(albumCoverPhotoId,obj){
 of likes, title and source of picture. Passes these variables to checkLike. */
 model.getThumbnails =function(id){
   $('#fourthRow').html("");
-  //$('#fourthRow').show();
-  console.log("INTO GETTHUMBNAILS");
   FB.api('/'+id,'GET',{"fields":"photos{images,name,likes.limit(150){id}},id"},function(response){
-    console.log(response);
       var likes;
       var albumId = id;
 
