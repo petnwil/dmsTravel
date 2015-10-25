@@ -1,8 +1,7 @@
 #splash{
   min-width: 100%;
   min-height: 100%;
-  /*background-color: #CCFFFF; */
-  background-image: url("../images/backgroundPictureBlackWhite.jpg");
+  background-image: url("../images/backgroundPicture.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   position: fixed;
@@ -27,19 +26,11 @@
 
 @keyframes slideUpWelcome{
   0% {bottom:-20%}
-/*  20%{bottom:-10}
-  40%{bottom:-5%}
-  60%{bottom:0%}
-  80%{bottom:5%}*/
   100{bottom:15%}
 }
 
 @-webkit-keyframes slideUpWelcome{
   0% {bottom:-20%}
-  /*20%{bottom:-13.33%}
-  40%{bottom:-10%}
-  60%{bottom:-6.33%}
-  80%{bottom:-3%}*/
   100{bottom:15%}
 }
 
@@ -122,6 +113,8 @@ a.visited{
   min-height: 500px;
   background-color: #C0C0C0;
   color:#FFFFFF;
+  background-image: url("../images/backgroundPictureBlackWhite.jpg");
+  background-size: cover;
 }
 
 #us{
@@ -156,15 +149,16 @@ a.visited{
 
 #postTitle{
   float:left;
-  margin-top: 11%;
-  margin-left: 12%;
+  margin-top: 16%;
+  margin-left: 11%;
   font-size: 1.7em;
 }
 
 #posts{
   float:right;
-  margin-top: 8%;
-  margin-right: 20%;
+  margin-right: 2%;
+  margin-top: 6%;
+  margin-right: 15%;
   /*margin-left: 8%; */
 }
 
@@ -204,7 +198,6 @@ a.visited{
   height: 250px;
   float:left;
   border-radius: 150px;
-  /*border: solid 1px white;*/
 }
 
 .mainThumb:hover{
@@ -224,7 +217,6 @@ a.visited{
 
 figure{
   float: left;
-  /*border: solid black 1px; */
   min-height: 310px;
   width: 270px;
   text-align: center;

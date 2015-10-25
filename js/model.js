@@ -1,4 +1,4 @@
-//********************** CALL FOR GETTING FACEBOOK SDK *************************
+//********************** CALL FOR FACEBOOK SDK *************************
 //fFacebook SDK - include it on every page I want to use it
    window.fbAsyncInit = function() {
      FB.init({
@@ -19,11 +19,9 @@
 
 // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
-    // The response object is returned with a status field that lets the
-    // app know the current login status of the person.
-    // Full docs on the response object can be found in the documentation
+    /*The response object is returned with a status field that lets the
+     app know the current login status of the person.
+     Full docs on the response object can be found in the documentation */
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
@@ -36,31 +34,37 @@
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      //document.getElementById('status').innerHTML = 'Please log ' +
-        //'into this app.';
     } else {
-      // The person is not logged into Facebook, so we're not sure if
-      // they are logged into this app or not.
-      //document.getElementById('status').innerHTML = 'Please log ' +
-        //'into Facebook.';
+      /*The person is not logged into Facebook, so we're not sure if
+      they are logged into this app or not.*/
     }
   }
 
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
+// Function from Facebook
   function checkLoginState() {
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
     });
   }
 
-//***************************   MODAL.JS ***************************************
-model.pageId = "815157038515764";
-model.obj = {};
-//model.callback = view.displayMainThumbs;
 
-//Logout function
+
+//***************************   MODEL.JS ***************************************
+model.pageId = "815157038515764";
+
+
+/*Function for login in. Calls FB.login function which calls the statusChangeCallback
+function. */
+model.logIn = function(){
+  FB.login(function(response){
+    console.log("User logged in!");
+    statusChangeCallback(response);
+  },{scope:'public_profile,email,publish_actions'});
+};
+
+
+/*Function for login out. Calls FB.logout function and blank all divs where content
+have been added. Finally hide divs and show the splashscreen. */
 model.logOut = function(){
    FB.logout(function(response) {
       $('#description').html("");
@@ -77,33 +81,31 @@ model.logOut = function(){
   });
 };
 
-model.logIn = function(){
-  FB.login(function(response){
-    console.log("User logged in!");
-    statusChangeCallback(response);
-  },{scope:'public_profile,email'});
-};
 
-//get and shows description in div description
+/*Function for getting the pages description. Calls displayDescription and sends
+description as parameter. */
 model.getDescription = function(){
   FB.api(model.pageId,{fields:'description'},function(response){
     view.displayDescription(response.description);
   });
 };
 
-//Get the thumbnails for the albums
+
+/* Function for getting data for each album. Saves data as variables pushes this
+to an object. The function check for the location of the album, if the location is
+Australia its call for getUrl and send the object and the albums id
+as parameters. */
 model.getMainThumb = function(){
   FB.api(model.pageId,'GET',{"fields":"albums{id,name,location,cover_photo,likes.limit(150)}"},function(response){
-    console.log(response);
+    //console.log(response);
 
-  var albumId ="";
-  var albumName ="";
-  var albumLocation ="";
-  var albumCoverPhotoId ="";
-  var albumCoverPhotoName ="";
-  var albumLikes =0;
-  var coverPhotoSource = "";
-
+    var albumId ="";
+    var albumName ="";
+    var albumLocation ="";
+    var albumCoverPhotoId ="";
+    var albumCoverPhotoName ="";
+    var albumLikes =0;
+    var coverPhotoSource = "";
 
     for(var i = 0; i < response.albums.data.length;i++)
     {
@@ -130,8 +132,6 @@ model.getMainThumb = function(){
 
       obj = {albumId:id, albumName:albumName, albumLocation:albumLocation, albumCoverPhotoId:albumCoverPhotoId, albumCoverPhotoName:albumCoverPhotoName,likes:albumLikes};
 
-      //console.log("*********************************");
-      console.log(obj.albumLocation + " albumlocation");
       indexAustralia = obj.albumLocation.indexOf("Australia");
       console.log(indexAustralia + " index");
       if( indexAustralia !== -1)
@@ -143,31 +143,27 @@ model.getMainThumb = function(){
   });
 }; //end of getThumb
 
-//Get URL for main thumbnails and show them in #secondRow
-model.getUrl = function(albumCoverPhotoId,obj){
-  console.log("get into getURL");
 
+/* Function for getting the source for the cover photo. Save source, name, likes
+and id in variables and passes this to displayMainThumbs. */
+model.getUrl = function(albumCoverPhotoId,obj){
   FB.api(albumCoverPhotoId,'GET',{"fields":"source"},function(response){
 
     var source = response.source;
     var albumName = obj.albumName;
     var likes = obj.likes;
     var id = obj.albumId;
-    //console.log("id i getURL: " + id);
-
-    /*var caption = "<figcaption>" + albumName + " <br>Likes " + likes + " </figcaption>";
-    var img = "<img class='mainThumb' id='"+id+"'  src='" + source + "'alt='' onclick='model.getThumbnails("+id+")'></img>"; //remember alt
-    var figur = "<figure class='mainT'>" +img + caption+ "</figure>";
-    $('#thumbs').append(figur);*/
 
     view.displayMainThumbs(albumName,source,id,likes);
   });
 };
 
-//Get thumbnails for showing album after user clicked main thumbnail
+
+/* Function which get thumbnails for pictures in a album. Saves photos id, number
+of likes, title and source of picture. Passes these variables to checkLike. */
 model.getThumbnails =function(id){
   $('#fourthRow').html("");
-  $('#fourthRow').show();
+  //$('#fourthRow').show();
   console.log("INTO GETTHUMBNAILS");
   FB.api('/'+id,'GET',{"fields":"photos{images,name,likes.limit(150){id}},id"},function(response){
     console.log(response);
@@ -179,7 +175,6 @@ model.getThumbnails =function(id){
 
         var photoId = response.photos.data[i].id;
 
-        //var likeArray;
         if(typeof response.photos.data[i].likes === "undefined")
         {
           likes = 0;
@@ -199,57 +194,41 @@ model.getThumbnails =function(id){
           capt = response.photos.data[i].name;
         }
 
-        //console.log("CAPT I første løkke: " + capt);
-        //console.log("IMAGES: " + response.photos.data[i].images[0].source);
         for(var j=0; j < response.photos.data[i].images.length;j++)
         {
 
           var largest = response.photos.data[i].images[0].source;
-          //console.log("largest source: " + largest);
 
           if(response.photos.data[i].images[j].height === 320)
           {
             var source320 = response.photos.data[i].images[j].source;
-
-            //view.displayThumbs(source320,largest,capt,photoId,likes);
             model.checkLike(photoId,source320,largest,capt,likes,albumId);
           }
-        }
+        }//end of for
       }
-      //$('#fourthRow').show();
   });
+  $('#fourthRow').show();
   controller.scroll();
 };
 
-//Get Facebook post liked by admin: DMS Travel
+
+/* Function which gets post from the Facebook feed which is liked by admin. */
 model.getComments = function(){
   var adminID = "815157038515764";
-  console.log("GET into getComments");
   var likesID = "";
 
-  FB.api(model.pageId,'GET',{"fields":"feed{message,story,likes{id,name}}"},function(response){
-    console.log(response);
-    for (var i = 0; i < response.feed.data.length; i++) {
-      //console.log(response.feed.data[i]);
+  FB.api(model.pageId,'GET',{"fields":"feed{message,from,name,story,likes{id,name}}"},function(response){
 
+    for (var i = 0; i < response.feed.data.length; i++)
+    {
       if(typeof response.feed.data[i].likes !== "undefined")
       {
-        //console.log("inside if, property likes and message exists");
-        //console.log("object inside if: " + response.feed.data[i].likes.data);
         for(var j = 0; j < response.feed.data[i].likes.data.length; j++)
         {
-          //console.log("LIKES DATA");
-          //console.log(response.feed.data[i].likes.data[j]);
           if(response.feed.data[i].likes.data[j].id === adminID)
           {
-            var author = response.feed.data[i].likes.data[j].name;
+            var author = response.feed.data[i].from.name;
             var message = response.feed.data[i].message;
-            //console.log("GETTING ID");
-            //console.log("this should be id: " + adminID + " " +response.feed.data[i].likes.data[j].id);
-
-            /*var post = "<div  id='post'> <p id='message'>"+response.feed.data[i].message+"</p>";
-            post += "<div id='author'> -" + author+ "</div> </div>";
-            $('#posts').append(post);*/
 
             view.displayPost(message,author);
           }
@@ -263,52 +242,55 @@ model.getComments = function(){
   });
 }; //end of getComments
 
-//Like a picture when user clicks "like" button under thumbnail
+
+/* Function for like a picture. */
 model.likePic =function(photoId,albumId){
-  console.log(photoId);
   photoId = photoId.toString();
   photoId = photoId+"/likes";
-  console.log(photoId);
 
   FB.api(photoId,'POST',{},function(response){
-    console.log(response);
     model.getThumbnails(albumId);
   });
 };
 
-//Unlike a picture when user clicks "unlike" button under thumbnail
+
+/* Function for unlike a picture. */
 model.unlikePic = function(photoId,albumId){
   photoId = photoId.toString();
   photoId = photoId+"/likes";
 
   FB.api(photoId,'DELETE',{},function(response){
-    console.log(response);
       model.getThumbnails(albumId);
   });
 };
 
-//check if picture is likes
+
+/* Function for checking if a picture is liked. Function reveices 5 variables.
+This function get the id of the user currently logged in and then checks this id
+against the id´s in the likes. Sends received parameters and a boolean variable
+to displayThumbs. */
 model.checkLike = function(photoId,source,largest,caption,likes,albumId){
   FB.api('/me','GET',{"fields":"id"},function(response){
     myId = response.id;
-    console.log("myId in first " + myId);
 
     FB.api('/'+photoId,'GET',{"fields":"likes{id}"},function(response){
-      console.log("myId in second api call " + myId);
-      console.log("ALBUMID IN CHECKLIKE AFTER API: " + albumId);
       var bool = false;
-      for(var i = 0; i < response.likes.data.length; i++)
+
+      if(likes === 0)
       {
-        if(myId === response.likes.data[i].id)
+        bool = false;
+      }
+      else
+      {
+        for(var i = 0; i < response.likes.data.length; i++)
         {
-          //console.log("ID IS THE SAME");
-          bool = true;
-          //return true;
+          if(myId === response.likes.data[i].id)
+          {
+            bool = true;
+          }
         }
       }
-      console.log("BOOL in checkLike: " + bool);
       view.displayThumbs(source,largest,caption,photoId,likes,bool,albumId);
     });
-
   });
 };
